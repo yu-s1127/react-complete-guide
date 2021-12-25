@@ -1,16 +1,12 @@
-import React, { FC, HTMLAttributes } from 'react';
+import React, { FC } from 'react';
 import './Card.css';
 
-const Card: FC<HTMLAttributes<HTMLDivElement>> = (
-  { children, className },
-  ...props
-) => {
-  const classes = 'card ' + className;
-  return (
-    <div className={classes} {...props}>
-      {children}
-    </div>
-  );
+interface Props {
+  className: string;
+}
+const Card: FC<Props> = (props) => {
+  const classes = 'card ' + props.className;
+  return <div className={classes}>{props.children}</div>;
 };
 
 export default Card;
