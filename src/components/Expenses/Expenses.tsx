@@ -1,29 +1,32 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
-import ExpenseItem from './ExpenseItem';
+import ExpenseFilter from './ExpenseFilter';
+import ExpenseList from './ExpenseList';
+import ExpenseData from '../../types/ExpenseData';
 import './Expenses.css';
 
-interface Expense {
-  title: string;
-  amount: number;
-  date: Date;
-}
-
 interface Props {
-  expenses: Expense[];
+  expenses: ExpenseData[];
 }
 
 const Expenses: FC<Props> = ({ expenses }) => {
+  const [filteredYear, setFilteredYear] = useState<string>('2021');
+
+  const filterChangeYear = (selectedYear: string) => {
+    setFilteredYear(selectedYear);
+  };
+
+  const filteredExpenses = expenses.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+
   return (
     <div className="expenses">
-      {expenses.map((expense, index) => (
-        <ExpenseItem
-          title={expense.title}
-          amount={expense.amount}
-          date={expense.date}
-          key={index}
-        />
-      ))}
+      <ExpenseFilter
+        selected={filteredYear}
+        onChangeFilter={filterChangeYear}
+      />
+      <ExpenseList expenses={filteredExpenses} />
     </div>
   );
 };

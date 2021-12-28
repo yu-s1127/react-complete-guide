@@ -1,15 +1,13 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import './ExpenseForm.css';
 
-interface ExpenseData {
-  title: string;
-  amount: string;
-  date: Date;
-}
+import Expense from '../../types/Expense';
+import './ExpenseForm.css';
 interface Props {
-  onSaveExpenseData: (enteredExpenseData: ExpenseData) => void;
+  onSaveExpenseData: (enteredExpenseData: Expense) => void;
+  onCancel: () => void;
 }
-const ExpenseForm: FC<Props> = ({ onSaveExpenseData }) => {
+
+const ExpenseForm: FC<Props> = ({ onSaveExpenseData, onCancel }) => {
   const [enteredTitle, setEnteredTitle] = useState<string>('');
   const [enteredAmount, setEnteredAmount] = useState<string>('');
   const [enteredDate, setEnteredDate] = useState<string>('');
@@ -31,7 +29,7 @@ const ExpenseForm: FC<Props> = ({ onSaveExpenseData }) => {
 
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: parseInt(enteredAmount),
       date: new Date(enteredDate),
     };
 
@@ -74,6 +72,9 @@ const ExpenseForm: FC<Props> = ({ onSaveExpenseData }) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>

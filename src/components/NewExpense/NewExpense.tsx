@@ -1,24 +1,44 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import ExpenseForm from './ExpenseForm';
+import Expense from '../../types/Expense';
+import ExpenseData from '../../types/ExpenseData';
 import './NewExpense.css';
 
-interface ExpenseData {
-  title: string;
-  amount: string;
-  date: Date;
+interface Props {
+  onAddExpense: (expenses: ExpenseData) => void;
 }
-const NewExpense: FC = () => {
-  const saveExpenseDataHandler = (enteredExpenseData: ExpenseData) => {
+
+const NewExpense: FC<Props> = ({ onAddExpense }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const saveExpenseDataHandler = (enteredExpenseData: Expense) => {
     const expenseData = {
       ...enteredExpenseData,
       id: Math.random().toString(),
     };
-    console.log(expenseData);
+    onAddExpense(expenseData);
   };
+
+  const startEditingHandler = () => {
+    setIsEditing(true);
+  };
+
+  const stopEditingHandler = () => {
+    setIsEditing(false);
+  };
+
   return (
     <div className="new-expense">
-      <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} />
+      {!isEditing && (
+        <button onClick={startEditingHandler}>Add New Expense</button>
+      )}
+      {isEditing && (
+        <ExpenseForm
+          onSaveExpenseData={saveExpenseDataHandler}
+          onCancel={stopEditingHandler}
+        />
+      )}
     </div>
   );
 };
