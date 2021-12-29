@@ -4,6 +4,7 @@ import ExpenseFilter from './ExpenseFilter';
 import ExpenseList from './ExpenseList';
 import ExpenseData from '../../types/ExpenseData';
 import './Expenses.css';
+import ExpensesChart from './ExpensesChart';
 
 interface Props {
   expenses: ExpenseData[];
@@ -26,6 +27,7 @@ const Expenses: FC<Props> = ({ expenses }) => {
         selected={filteredYear}
         onChangeFilter={filterChangeYear}
       />
+      <ExpensesChart expenses={filteredExpenses} />
       <ExpenseList expenses={filteredExpenses} />
     </div>
   );
